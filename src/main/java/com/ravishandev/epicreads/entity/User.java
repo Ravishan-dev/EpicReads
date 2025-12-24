@@ -3,7 +3,7 @@ package com.ravishandev.epicreads.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users")h
+@Table(name = "users")
 @NamedQuery(name = "User.getByEmail", query = "FROM User u WHERE u.email=:email")
 public class User extends BaseEntity {
 
