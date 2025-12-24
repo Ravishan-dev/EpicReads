@@ -22,6 +22,7 @@ public class Main {
             context.addServletMappingDecoded("/api/*", "JerseyServlet");
 
             tomcat.start();
+            System.out.println("App URL:  http://localhost:8080"+ CONTEXT_PATH);
             tomcat.getServer().await();
         } catch (LifecycleException e) {
             throw new RuntimeException("Server Starting Failed" + e.getMessage());
