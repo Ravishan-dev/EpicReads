@@ -14,6 +14,21 @@ public class Status implements Serializable {
     @Column(nullable = false)
     private String value;
 
+    public enum type{
+        ACTIVE,
+        INACTIVE,
+        PENDING,
+        BLOCKED,
+        DELIVERED,
+        PACKING,
+        APPROVED,
+        REJECTED,
+        CANCELLED,
+        VERIFIED,
+        RECEIVED,
+        COMPLETED
+    }
+
     public int getId() {
         return id;
     }
