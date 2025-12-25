@@ -1,5 +1,10 @@
 async function signup() {
 
+    Notiflix.Loading.pulse("Wait...", {
+        clickToClose: false,
+        svgColor: '#0284c7'
+    });
+
     const fname = document.getElementById("first");
     const lname = document.getElementById("last");
     const email = document.getElementById("email");
@@ -25,13 +30,31 @@ async function signup() {
 
         if (response.ok) {
             const data = await response.json();
-            console.log(data);
-            console.log(data.message);
+            if (data.status) {
+                Notiflix.Report.success(
+                    'Epic Reads',
+                    data.message,
+                    "Okay",
+                    () => {
+                        window.location = "login.html";
+                    },
+                );
+            } else {
+                Notiflix.Notify.warning(data.message, {
+                    position: 'center-top'
+                });
+            }
         } else {
-
+            Notiflix.Nofity.failure("Something Went Wrong Please Try Again", {
+                position: 'center-top'
+            });
         }
 
     } catch (e) {
-        console.log("exception");
+        Notiflix.Notify.failure(e.message, {
+            position: 'center-top'
+        });
+    } finally {
+        Notiflix.Loading.remove(1000);
     }
 }
