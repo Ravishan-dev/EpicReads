@@ -7,13 +7,58 @@ import com.ravishandev.epicreads.entity.User;
 import com.ravishandev.epicreads.util.AppUtil;
 import com.ravishandev.epicreads.util.HibernateUtil;
 import com.ravishandev.epicreads.validation.Validator;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.ws.rs.core.Context;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class UserService {
 
-    public static String createAccount(UserDTO userDTO) {
+    public String userLogin(UserDTO userDTO, @Context HttpServletRequest request) {
+
+        JsonObject responseObject = new JsonObject();
+        boolean status = false;
+        String message = "";
+
+        if (userDTO.getEmail() == null) {
+            message = "Email Address is Required";
+        } else if (userDTO.getEmail().isBlank()) {
+            message = "Email Address Can not be Empty";
+        } else if (!userDTO.getEmail().matches(Validator.EMAIL_VALIDATION)) {
+            message = "Please Provide a valid Email";
+        } else if (userDTO.getPassword() == null) {
+            message = "Password is Required";
+        } else if (userDTO.getPassword().isBlank()) {
+            message = "Password can not be Empty";
+        } else {
+            Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+            User singleUser = hibernateSession.createNamedQuery("User.getByEmail", User.class)
+                    .setParameter("email", userDTO.getEmail())
+                    .getSingleResultOrNull();
+
+            if (singleUser == null) {
+                message = "Account not found Please Register First";
+            } else {
+                if (!singleUser.getPassword().equals(userDTO.getPassword())) {
+                    message = "Invalid Credentials... Please Try Again";
+                } else {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", singleUser);
+                    status = true;
+                    message = "Login Success!!!";
+                }
+            }
+            hibernateSession.close();
+        }
+
+        responseObject.addProperty("status", status);
+        responseObject.addProperty("message", message);
+        return AppUtil.GSON.toJson(responseObject);
+    }
+
+    public String createAccount(UserDTO userDTO) {
 
         JsonObject responseObject = new JsonObject();
         boolean status = false;
