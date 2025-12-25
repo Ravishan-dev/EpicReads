@@ -38,5 +38,5 @@ build/
 ### Mac OS ###
 .DS_Store
 src/main/resources/hibernate.cfg.xml
- .idea/dataSources.xml
 .idea/data_source_mapping.xml
+.idea/dataSources.xml
