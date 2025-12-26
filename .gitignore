@@ -40,3 +40,5 @@ build/
 src/main/resources/hibernate.cfg.xml
 .idea/data_source_mapping.xml
 .idea/dataSources.xml
+webContexts.xml
+Test.java
