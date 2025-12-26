@@ -18,4 +18,14 @@
         <filter-name>AuthFilter</filter-name>
         <url-pattern>/signup.html</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>AccessControlFilter</filter-name>
+        <filter-class>com.ravishandev.epicreads.middleware.AccessControlFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AccessControlFilter</filter-name>
+        <url-pattern>/my-account.html</url-pattern>
+    </filter-mapping>
 </web-app>
