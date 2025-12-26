@@ -1,5 +1,3 @@
-// scripts.js
-
 (function () {
     "use strict";
 
@@ -43,21 +41,21 @@
         });
     }
 
-    function initAccountLink() {
-        const link = document.getElementById("accountLink");
-        if (!link) return;
-
-        // UI-only auth toggle (replace with real backend logic later)
-        const authToken = localStorage.getItem("authToken");
-
-        if (authToken) {
-            link.href = "my-account.html";
-            link.setAttribute("aria-label", "My account");
-        } else {
-            link.href = "login.html";
-            link.setAttribute("aria-label", "Login");
-        }
-    }
+    // function initAccountLink() {
+    //     const link = document.getElementById("accountLink");
+    //     if (!link) return;
+    //
+    //     // UI-only auth toggle (replace with real backend logic later)
+    //     const authToken = localStorage.getItem("authToken");
+    //
+    //     if (authToken) {
+    //         link.href = "my-account.html";
+    //         link.setAttribute("aria-label", "My account");
+    //     } else {
+    //         link.href = "login.html";
+    //         link.setAttribute("aria-label", "Login");
+    //     }
+    // }
 
     function initPasswordToggles() {
         // Supports multiple toggles if you ever add more
@@ -79,9 +77,44 @@
         });
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        initNavSearchToggle(); // index only (safe to call everywhere)
-        initAccountLink();     // index only (safe to call everywhere)
-        initPasswordToggles(); // login/signup (safe to call everywhere)
-    });
+    // Load header and footer components
+    function loadComponents() {
+        // Load header
+        fetch('./header.html')
+            .then(response => response.text())
+            .then(html => {
+                const headerContainer = document.getElementById('headerContainer');
+                if (headerContainer) {
+                    headerContainer.innerHTML = html;
+                    // Re-initialize scripts that depend on header elements
+                    initNavSearchToggle();
+                }
+            })
+            .catch(error => console.error('Error loading header:', error));
+
+        // Load footer
+        fetch('./footer.html')
+            .then(response => response.text())
+            .then(html => {
+                const footerContainer = document.getElementById('footerContainer');
+                if (footerContainer) {
+                    footerContainer.innerHTML = html;
+                }
+            })
+            .catch(error => console.error('Error loading footer:', error));
+    }
+
+    // Load components when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener("DOMContentLoaded", () => {
+            loadComponents();
+            initNavSearchToggle();
+            initPasswordToggles();
+        });
+    } else {
+        // DOM is already loaded
+        loadComponents();
+        initNavSearchToggle();
+        initPasswordToggles();
+    }
 })();
