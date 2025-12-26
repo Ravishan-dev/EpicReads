@@ -1,0 +1,281 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>My Account - EPIC READS</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+    <link rel="stylesheet", href="./assets/css/notification.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+<!-- Header Component Container -->
+<div id="headerContainer"></div>
+
+<div class="account-page">
+    <div class="account-container">
+        <!-- Tabs Navigation -->
+        <div class="account-tabs">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab">
+                        <i class="bi bi-person me-2"></i> Account Details
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab">
+                        <i class="bi bi-shield-lock me-2"></i> Security
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address" type="button" role="tab">
+                        <i class="bi bi-geo-alt me-2"></i> Addresses
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab">
+                        <i class="bi bi-box-seam me-2"></i> Orders
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Account Details Tab -->
+            <div class="tab-pane fade show active" id="details" role="tabpanel">
+                <div class="account-card">
+                    <div class="card-header-custom">
+                        <i class="bi bi-person-check"></i>
+                        <h3>Personal Information</h3>
+                    </div>
+
+                    <div class="info-box">
+                        <i class="bi bi-info-circle"></i>
+                        <div>Keep your personal information up to date to ensure smooth transactions and better service.</div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group-custom">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" class="form-control" placeholder="John"/>
+                        </div>
+                        <div class="form-group-custom">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" class="form-control" placeholder="Doe"/>
+                        </div>
+                    </div>
+
+                    <div class="form-grid full">
+                        <div class="form-group-custom">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="form-control" placeholder="john.doe@example.com"/>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group-custom">
+                            <label for="phone">Mobile Number</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="+1 (555) 000-0000"/>
+                        </div>
+                        <div class="form-group-custom">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn-update">Update Information</button>
+                        <button class="btn-secondary-action">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Tab -->
+            <div class="tab-pane fade" id="security" role="tabpanel">
+                <div class="account-card">
+                    <div class="card-header-custom">
+                        <i class="bi bi-shield-check"></i>
+                        <h3>Change Password</h3>
+                    </div>
+
+                    <div class="info-box">
+                        <i class="bi bi-info-circle"></i>
+                        <div>Use a strong password with at least 8 characters, including uppercase, lowercase, numbers, and special characters.</div>
+                    </div>
+
+                    <div class="form-grid full">
+                        <div class="form-group-custom">
+                            <label for="currentPassword">Current Password</label>
+                            <input type="password" id="currentPassword" class="form-control" placeholder="Enter your current password"/>
+                        </div>
+                    </div>
+
+                    <div class="form-grid full">
+                        <div class="form-group-custom">
+                            <label for="newPassword">New Password</label>
+                            <input type="password" id="newPassword" class="form-control" placeholder="Enter new password"/>
+                            <div class="password-strength">
+                                <div class="strength-bar"></div>
+                                <div class="strength-bar"></div>
+                                <div class="strength-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-grid full">
+                        <div class="form-group-custom">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your new password"/>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn-update">Update Password</button>
+                        <button class="btn-secondary-action">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Address Tab -->
+            <div class="tab-pane fade" id="address" role="tabpanel">
+                <div class="account-card">
+                    <div class="card-header-custom">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <h3>Shipping Address</h3>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group-custom">
+                            <label for="address1">Address Line 1</label>
+                            <input type="text" id="address1" class="form-control" placeholder="Street address"/>
+                        </div>
+                        <div class="form-group-custom">
+                            <label for="address2">Address Line 2</label>
+                            <input type="text" id="address2" class="form-control" placeholder="Apartment, suite, etc. (optional)"/>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group-custom">
+                            <label for="city">City</label>
+                            <input type="text" id="city" class="form-control" placeholder="City"/>
+                        </div>
+                        <div class="form-group-custom">
+                            <label for="state">State/Province</label>
+                            <input type="text" id="state" class="form-control" placeholder="State or Province"/>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group-custom">
+                            <label for="postal">Postal Code</label>
+                            <input type="text" id="postal" class="form-control" placeholder="12345"/>
+                        </div>
+                        <div class="form-group-custom">
+                            <label for="country">Country</label>
+                            <select id="country" class="form-select">
+                                <option selected>Select Country</option>
+                                <option value="us">United States</option>
+                                <option value="ca">Canada</option>
+                                <option value="uk">United Kingdom</option>
+                                <option value="au">Australia</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn-update">Save Address</button>
+                        <button class="btn-secondary-action">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div class="tab-pane fade" id="orders" role="tabpanel">
+                <div class="account-card">
+                    <div class="card-header-custom">
+                        <i class="bi bi-bag-check"></i>
+                        <h3>Your Orders</h3>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Total Orders</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label">Pending</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">7</div>
+                            <div class="stat-label">Delivered</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">$450</div>
+                            <div class="stat-label">Total Spent</div>
+                        </div>
+                    </div>
+
+                    <div style="padding: 40px; text-align: center; background: #fafaf8; border-radius: 12px; border: 1px solid var(--line);">
+                        <i class="bi bi-inbox" style="font-size: 40px; color: var(--muted); margin-bottom: 12px; display: block;"></i>
+                        <p style="color: var(--muted); margin: 0;">Your order history will appear here once you make a purchase.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footerContainer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Password strength indicator
+    const newPasswordInput = document.getElementById('newPassword');
+    const strengthBars = document.querySelectorAll('.password-strength .strength-bar');
+
+    if (newPasswordInput) {
+        newPasswordInput.addEventListener('input', function() {
+            let strength = 0;
+            const password = this.value;
+
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^a-zA-Z0-9]/.test(password)) strength++;
+
+            strengthBars.forEach((bar, index) => {
+                if (index < strength) {
+                    bar.classList.add('active');
+                } else {
+                    bar.classList.remove('active');
+                }
+            });
+        });
+    }
+
+    // Form submissions
+    document.querySelectorAll('.btn-update').forEach(btn => {
+        btn.addEventListener('click', function() {
+            alert('Changes saved successfully!');
+        });
+    });
+
+    document.querySelectorAll('.btn-secondary-action').forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Reset form or navigate
+            window.location.href = 'index.html';
+        });
+    });
+</script>
+<script src="./assets/js/notiflix-aio-3.2.8.min.js"></script>
+<script src="./assets/js/my-account.js"></script>
+<script src="./assets/js/script.js"></script>
+</body>
+</html>
