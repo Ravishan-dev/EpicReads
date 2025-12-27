@@ -18,6 +18,9 @@ public class Address implements Serializable {
     @Column(name = "line_two", length = 50)
     private String lineTwo;
 
+    @Column(nullable = false, length = 10)
+    private int mobile;
+
     @Column(name = "postal_code", length = 10)
     private int postalCode;
 
@@ -75,5 +78,13 @@ public class Address implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public int getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(int mobile) {
+        this.mobile = mobile;
     }
 }
