@@ -16,6 +16,58 @@ import org.hibernate.Transaction;
 
 public class UserService {
 
+    public String updatePassword(UserDTO userDTO, @Context HttpServletRequest request) {
+        JsonObject responseObject = new JsonObject();
+        boolean status = false;
+        String message = "";
+
+        HttpSession session = request.getSession();
+        if (session == null) {
+            message = "Please Login First";
+        } else {
+            User sessionUser = (User) session.getAttribute("user");
+            if (!sessionUser.getPassword().equals(userDTO.getCurrentPassword())) {
+                message = "Current Password does not Match...Please Try Again";
+            } else {
+                if (userDTO.getNewPassword() == null) {
+                    message = "New Password is Required";
+                } else if (userDTO.getNewPassword().isBlank()) {
+                    message = "New Password can not be Empty";
+                } else if (!userDTO.getNewPassword().matches(Validator.PASSWORD_VALIDATION)) {
+                    message = "Please Provide a Valid Password";
+                } else if (userDTO.getConfirmPassword() == null) {
+                    message = "Confirm Password id Required";
+                } else if (userDTO.getConfirmPassword().isBlank()) {
+                    message = "Confirm Password can not be Empty";
+                } else if (!userDTO.getNewPassword().equals(userDTO.getConfirmPassword())) {
+                    message = "New Password and Confirm Password does not Match";
+                } else {
+                    Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+                    User dbUser = hibernateSession.createNamedQuery("User.getByEmail", User.class)
+                            .setParameter("email", sessionUser.getEmail())
+                            .getSingleResultOrNull();
+
+                    dbUser.setPassword(userDTO.getConfirmPassword());
+
+                    Transaction transaction = hibernateSession.beginTransaction();
+                    try {
+                        hibernateSession.persist(dbUser);
+                        transaction.commit();
+                        status = true;
+                        message = "Password Changed Successfully";
+                    } catch (HibernateException e) {
+                        transaction.rollback();
+                        message = "Password Updating Failed";
+                    }
+                    hibernateSession.close();
+                }
+            }
+        }
+        responseObject.addProperty("status", status);
+        responseObject.addProperty("message", message);
+        return AppUtil.GSON.toJson(responseObject);
+    }
+
     public String userLogin(UserDTO userDTO, @Context HttpServletRequest request) {
 
         JsonObject responseObject = new JsonObject();

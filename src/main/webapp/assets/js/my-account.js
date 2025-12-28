@@ -12,6 +12,44 @@ window.addEventListener("load", async () => {
     }
 });
 
+async function changePassword() {
+
+    const currentPassword = document.getElementById("currentPassword");
+    const newPassword = document.getElementById("newPassword");
+    const confirmPassword = document.getElementById("confirmPassword");
+
+    const password = {
+        currentPassword: currentPassword.value,
+        newPassword: newPassword.value,
+        confirmPassword: confirmPassword.value
+    }
+
+    try {
+
+        const response = await fetch("api/users/update-password", {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(password)
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            console.log(data.message);
+        } else {
+            Notiflix.Notify.failure("Password Changed Failed", {
+                position: 'center-top'
+            });
+        }
+    } catch (e) {
+        Nitiflix > Notifyfailure(e.message, {
+            position: 'center-top'
+        });
+    }
+}
+
 async function updateProfile() {
     let fName = document.getElementById("firstName");
     let lName = document.getElementById("lastName");
@@ -22,12 +60,7 @@ async function updateProfile() {
     let city = document.getElementById("accountCity");
     let pcode = document.getElementById("postalCode");
 
-    // Debug logging
-    console.log("City Select Value:", city.value);
-    console.log("City Select Type:", typeof city.value);
-
     const cityId = parseInt(city.value);
-    console.log("Parsed City ID:", cityId);
 
     if (cityId === 0 || isNaN(cityId)) {
         Notiflix.Notify.failure("Please Select A City", {
@@ -46,8 +79,6 @@ async function updateProfile() {
         cityId: cityId,
         postalCode: pcode.value
     };
-
-    console.log("Sending user object:", user);
 
     try {
         const response = await fetch("api/profiles/update-profile", {
