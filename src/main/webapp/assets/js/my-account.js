@@ -12,6 +12,78 @@ window.addEventListener("load", async () => {
     }
 });
 
+async function updateProfile() {
+    let fName = document.getElementById("firstName");
+    let lName = document.getElementById("lastName");
+    let email = document.getElementById("email");
+    let mobile = document.getElementById("phone");
+    let line1 = document.getElementById("lineOne");
+    let line2 = document.getElementById("lineTwo");
+    let city = document.getElementById("accountCity");
+    let pcode = document.getElementById("postalCode");
+
+    // Debug logging
+    console.log("City Select Value:", city.value);
+    console.log("City Select Type:", typeof city.value);
+
+    const cityId = parseInt(city.value);
+    console.log("Parsed City ID:", cityId);
+
+    if (cityId === 0 || isNaN(cityId)) {
+        Notiflix.Notify.failure("Please Select A City", {
+            position: 'center-top'
+        });
+        return;
+    }
+
+    const user = {
+        firstName: fName.value,
+        lastName: lName.value,
+        email: email.value,
+        mobile: mobile.value,
+        lineOne: line1.value,
+        lineTwo: line2.value,
+        cityId: cityId,
+        postalCode: pcode.value
+    };
+
+    console.log("Sending user object:", user);
+
+    try {
+        const response = await fetch("api/profiles/update-profile", {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        });
+
+        const data = await response.json();
+        console.log("Response:", data);
+
+        if (response.ok) {
+            if (data.status) {
+                Notiflix.Notify.success(data.message, {
+                    position: 'center-top'
+                });
+            } else {
+                Notiflix.Notify.failure(data.message, {
+                    position: 'center-top'
+                });
+            }
+        } else {
+            Notiflix.Notify.failure(data.message || "Profile Update Failed", {
+                position: 'center-top'
+            });
+        }
+    } catch (e) {
+        console.error("Error:", e);
+        Notiflix.Notify.failure(e.message, {
+            position: 'center-top'
+        });
+    }
+}
+
 async function loadCities() {
 
     try {
@@ -21,8 +93,8 @@ async function loadCities() {
             const citySelect = document.getElementById("accountCity");
             data.cities.forEach((city) => {
                 const option = document.createElement("option");
-                option.value = city.id;
-                option.innerHTML = city.name;
+                option.value = city.id;  // Make sure it's an integer
+                option.textContent = city.name;
                 citySelect.appendChild(option);
             });
         } else {
@@ -31,6 +103,7 @@ async function loadCities() {
             });
         }
     } catch (e) {
+        console.error("Error loading cities:", e);
         Notiflix.Notify.failure(e.message, {
             position: 'center-top'
         });
@@ -39,33 +112,12 @@ async function loadCities() {
 
 async function loadUser() {
 
-    const fname = document.getElementById("firstName");
-    const lname = document.getElementById("lastName");
-    const email = document.getElementById("email");
-    const mobile = document.getElementById("phone");
-    const line1 = document.getElementById("lineOne");
-    const line2 = document.getElementById("lineTwo");
-    const city = document.getElementById("accountCity");
-    const pcode = document.getElementById("postalCode");
-
-    const user = {
-        firstName: fname.value,
-        lastName: lname.value,
-        email: email.value,
-        mobile: mobile.value,
-        lineOne: line1.value,
-        lineTwo: line2.value,
-        city: city.value,
-        postalCode: pcode.value
-    }
-
     try {
         const response = await fetch("api/profiles/user-profile", {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify(user)
         });
 
         if (response.ok) {
@@ -84,6 +136,7 @@ async function loadUser() {
                 document.getElementById("accountCity").value = data.user.cityId;
                 document.getElementById("postalCode").value = data.user.postalCode;
 
+                console.log("Set city value to:", data.user.cityId);
             }
         } else {
             Notiflix.Notify.failure("Profile Loading Failed", {
@@ -91,9 +144,9 @@ async function loadUser() {
             });
         }
     } catch (e) {
+        console.error("Error loading user:", e);
         Notiflix.Notify.failure(e.message, {
             position: 'center-top'
         });
     }
-
 }

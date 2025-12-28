@@ -15,14 +15,14 @@ public class Address implements Serializable {
     @Column(name = "line_one", nullable = false, length = 50)
     private String lineOne;
 
-    @Column(name = "line_two", length = 50)
+    @Column(name = "line_two", length = 50, nullable = false)
     private String lineTwo;
 
     @Column(nullable = false, length = 10)
-    private int mobile;
+    private String mobile;
 
     @Column(name = "postal_code", length = 10)
-    private int postalCode;
+    private String postalCode;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "city_id")
@@ -56,11 +56,11 @@ public class Address implements Serializable {
         this.lineTwo = lineTwo;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
@@ -80,11 +80,11 @@ public class Address implements Serializable {
         this.user = user;
     }
 
-    public int getMobile() {
+    public String getMobile() {
         return mobile;
     }
 
-    public void setMobile(int mobile) {
+    public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 }

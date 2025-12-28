@@ -9,10 +9,10 @@ public class UserDTO {
     private String password;
     private String lineOne;
     private String lineTwo;
-    private int mobile;
+    private String mobile;
     private int cityId;
     private String cityName;
-    private int postalCode;
+    private String postalCode;
     private String sinceAt;
 
 
@@ -72,11 +72,11 @@ public class UserDTO {
         this.lineTwo = lineTwo;
     }
 
-    public int getMobile() {
+    public String getMobile() {
         return mobile;
     }
 
-    public void setMobile(int mobile) {
+    public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 
@@ -96,11 +96,11 @@ public class UserDTO {
         this.cityName = cityName;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
