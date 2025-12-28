@@ -36,8 +36,15 @@ async function changePassword() {
 
         if (response.ok) {
             const data = await response.json();
-            console.log(data);
-            console.log(data.message);
+            if (data.status) {
+                Notiflix.Notify.success("Password Changed Successful", {
+                    position: 'center-top'
+                });
+            } else {
+                Notiflix.Notify.failure("Password not Changed... Please Try Again", {
+                    position: 'center-top'
+                });
+            }
         } else {
             Notiflix.Notify.failure("Password Changed Failed", {
                 position: 'center-top'
