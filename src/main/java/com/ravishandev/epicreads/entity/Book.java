@@ -1,6 +1,7 @@
 package com.ravishandev.epicreads.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.engine.internal.Cascade;
 
 @Entity
 @Table(name = "books")
@@ -28,4 +29,8 @@ public class Book extends BaseEntity{
 
     @Column(nullable = false)
     private String price;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "seller_id")
+    private Seller seller;
 }
