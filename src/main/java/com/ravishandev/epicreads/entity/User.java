@@ -22,6 +22,9 @@ public class User extends BaseEntity {
     @Column(nullable = false, length = 20)
     private String password;
 
+    @Column(name = "verification_code", length = 6)
+    private String verificationCode;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "status_id")
     private Status status;
@@ -68,6 +71,14 @@ public class User extends BaseEntity {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
     }
 
     public void setPassword(String password) {

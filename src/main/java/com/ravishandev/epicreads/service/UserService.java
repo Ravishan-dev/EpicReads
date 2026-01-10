@@ -4,6 +4,8 @@ import com.google.gson.JsonObject;
 import com.ravishandev.epicreads.dto.UserDTO;
 import com.ravishandev.epicreads.entity.Status;
 import com.ravishandev.epicreads.entity.User;
+import com.ravishandev.epicreads.mail.VerificationMail;
+import com.ravishandev.epicreads.provider.MailServiceProvider;
 import com.ravishandev.epicreads.util.AppUtil;
 import com.ravishandev.epicreads.util.HibernateUtil;
 import com.ravishandev.epicreads.validation.Validator;
@@ -15,6 +17,60 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class UserService {
+
+    public String verifyAccount(UserDTO userDTO) {
+        JsonObject responseObject = new JsonObject();
+        boolean status = false;
+        String message = "";
+
+        if (userDTO.getEmail() == null) {
+            message = "Email Address is Required";
+        } else if (userDTO.getVerificationCode() == null) {
+            message = "Verification Code Is Required";
+        } else if (userDTO.getVerificationCode().isBlank()) {
+            message = "Verification Code can not be Empty";
+        } else if (!userDTO.getVerificationCode().matches(Validator.VERIFICATION_CODE_VALIDATION)) {
+            message = "Please Provide a Valid Verification Code";
+        } else {
+            Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+
+            User user = hibernateSession.createQuery("FROM User u WHERE u.email=:email AND u.verificationCode=:verificationCode", User.class)
+                    .setParameter("email", userDTO.getEmail())
+                    .setParameter("verificationCode", userDTO.getVerificationCode())
+                    .getSingleResultOrNull();
+
+            if (user == null) {
+                message = "Account Not Found";
+            } else {
+                Status verifyiedStatus = hibernateSession.createNamedQuery("Status.findByValue", Status.class)
+                        .setParameter("value", String.valueOf(Status.type.VERIFIED))
+                        .getSingleResultOrNull();
+
+                if (user.getStatus().equals(verifyiedStatus)) {
+                    message = "Account Already Verified";
+                } else {
+                    user.setStatus(verifyiedStatus);
+                    user.setVerificationCode("");
+                    Transaction transaction = hibernateSession.beginTransaction();
+                    try {
+                        hibernateSession.merge(user);
+                        transaction.commit();
+                        status = true;
+                        message = "Account Verified Success";
+                    } catch (HibernateException e) {
+                        transaction.rollback();
+                        message = "Something went wrong. Verification Process Failed";
+                    } finally {
+                        hibernateSession.close();
+                    }
+                }
+            }
+        }
+
+        responseObject.addProperty("status", status);
+        responseObject.addProperty("message", message);
+        return AppUtil.GSON.toJson(responseObject);
+    }
 
     public String updatePassword(UserDTO userDTO, @Context HttpServletRequest request) {
         JsonObject responseObject = new JsonObject();
@@ -91,15 +147,24 @@ public class UserService {
                     .getSingleResultOrNull();
 
             if (singleUser == null) {
-                message = "Account not found Please Register First";
+                message = "Account not Found Please Register First";
             } else {
                 if (!singleUser.getPassword().equals(userDTO.getPassword())) {
-                    message = "Invalid Credentials... Please Try Again";
+                    message = "Invalid Credentials...Please Try Again";
                 } else {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("user", singleUser);
-                    status = true;
-                    message = "Login Success!!!";
+                    Status verifiedStatus = hibernateSession.createNamedQuery("Status.findByValue", Status.class)
+                            .setParameter("value", String.valueOf(Status.type.VERIFIED))
+                            .getSingleResultOrNull();
+
+                    if (!singleUser.getStatus().equals(verifiedStatus)) {
+                        message = "Account Not Verified Yet..." +
+                                "\n Please Verify Your Account";
+                    } else {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("user", singleUser);
+                        status = true;
+                        message = "Login Success";
+                    }
                 }
             }
             hibernateSession.close();
@@ -152,6 +217,9 @@ public class UserService {
                 user.setEmail(userDTO.getEmail());
                 user.setPassword(userDTO.getPassword());
 
+                String verificationCode = AppUtil.generateCode();
+                user.setVerificationCode(verificationCode);
+
                 Status pendingStatus = hibernateSession.createNamedQuery("Status.findByValue", Status.class)
                         .setParameter("value", String.valueOf(Status.type.PENDING))
                         .getSingleResultOrNull();
@@ -162,8 +230,11 @@ public class UserService {
                 try {
                     hibernateSession.persist(user);
                     transaction.commit();
+                    VerificationMail verificationMail = new VerificationMail(user.getEmail(), user.getVerificationCode());
+                    MailServiceProvider.getInstance().sendMail(verificationMail);
                     status = true;
-                    message = "Account Creation Successful";
+                    message = "Account Creation Successful" +
+                            "\n Verification Code Sent to Your Registered Email Address!!!";
                 } catch (HibernateException e) {
                     transaction.rollback();
                     message = "Account Creation Failed...Please Try Again";

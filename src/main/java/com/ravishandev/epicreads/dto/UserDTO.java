@@ -17,6 +17,7 @@ public class UserDTO {
     private String currentPassword;
     private String newPassword;
     private String confirmPassword;
+    private String verificationCode;
 
 
     public int getId() {
@@ -137,5 +138,13 @@ public class UserDTO {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
     }
 }
