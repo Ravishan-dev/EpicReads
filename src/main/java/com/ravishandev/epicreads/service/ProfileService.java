@@ -79,24 +79,31 @@ public class ProfileService {
                         .setParameter("user", sessionUser)
                         .getSingleResultOrNull();
 
-                if (userAddress != null) {
-                    userAddress.setLineOne(userDTO.getLineOne());
-                    userAddress.setLineTwo(userDTO.getLineTwo());
-                    userAddress.setMobile(userDTO.getMobile());
+                City city = hibernateSession.find(City.class, userDTO.getCityId());
 
-                    City city = hibernateSession.find(City.class, userDTO.getCityId());
-
-                    if (city != null) {
-                        userAddress.setCity(city);
-                    }
-
-                    userAddress.setPostalCode(userDTO.getPostalCode());
+                if (userAddress == null) {
+                    userAddress = new Address();
+                    userAddress.setUser(dbUser);
                 }
+
+                userAddress.setLineOne(userDTO.getLineOne());
+                userAddress.setLineTwo(userDTO.getLineTwo());
+                userAddress.setMobile(userDTO.getMobile());
+                userAddress.setPostalCode(userDTO.getPostalCode());
+
+                if (city != null) {
+                    userAddress.setCity(city);
+                }
+
 
                 Transaction transaction = hibernateSession.beginTransaction();
                 try {
                     hibernateSession.merge(dbUser);
-                    hibernateSession.merge(userAddress);
+                    if (userAddress.getId() == 0) {
+                        hibernateSession.persist(userAddress);
+                    } else {
+                        hibernateSession.merge(userAddress);
+                    }
                     transaction.commit();
                     httpSession.setAttribute("user", dbUser);
                     status = true;
@@ -115,9 +122,15 @@ public class ProfileService {
     }
 
     public String loadUserProfile(@Context HttpServletRequest request) {
+
         JsonObject responseObject = new JsonObject();
 
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            responseObject.addProperty("status", false);
+            responseObject.addProperty("message", "Please Login First");
+            return AppUtil.GSON.toJson(responseObject);
+        }
         User user = (User) session.getAttribute("user");
 
         UserDTO userDTO = new UserDTO();
@@ -131,18 +144,29 @@ public class ProfileService {
                 .setParameter("user", user)
                 .getSingleResultOrNull();
 
-        userDTO.setLineOne(userAddress.getLineOne());
-        userDTO.setLineTwo(userAddress.getLineTwo());
-        userDTO.setCityId(userAddress.getCity().getId());
-        userDTO.setCityName(userAddress.getCity().getName());
-        userDTO.setPostalCode(userAddress.getPostalCode());
-        userDTO.setMobile(userAddress.getMobile());
+        if (userAddress != null) {
+            userDTO.setLineOne(userAddress.getLineOne());
+            userDTO.setLineTwo(userAddress.getLineTwo());
+            if (userAddress.getCity() != null) {
+                userDTO.setCityId(userAddress.getCity().getId());
+                userDTO.setCityName(userAddress.getCity().getName());
+            }
+            userDTO.setMobile(userAddress.getMobile());
+            userDTO.setPostalCode(userAddress.getPostalCode());
 
-        LocalDateTime createdAt = user.getCreatedAt();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMMM");
-        String sinceAt = createdAt.format(formatter);
-        userDTO.setSinceAt(sinceAt);
+            LocalDateTime createdAt = user.getCreatedAt();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMMM");
+            String sinceAt = createdAt.format(formatter);
+            userDTO.setSinceAt(sinceAt);
+        } else {
+            LocalDateTime createdAt = user.getCreatedAt();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMMM");
+            String sinceAt = createdAt.format(formatter);
+            userDTO.setSinceAt(sinceAt);
+        }
 
+        responseObject.addProperty("status", true);
+        responseObject.addProperty("message", "");
         responseObject.add("user", AppUtil.GSON.toJsonTree(userDTO));
         hibernateSession.close();
 

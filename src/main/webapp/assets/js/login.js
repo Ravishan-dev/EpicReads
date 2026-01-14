@@ -1,4 +1,4 @@
-async function login() {
+    async function login() {
 
     Notiflix.Loading.pulse("Wait...", {
         clickToClose: false,

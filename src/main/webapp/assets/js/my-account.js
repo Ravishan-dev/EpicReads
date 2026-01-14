@@ -51,7 +51,7 @@ async function changePassword() {
             });
         }
     } catch (e) {
-        Nitiflix > Notifyfailure(e.message, {
+        Notiflix.Notifyfailure(e.message, {
             position: 'center-top'
         });
     }
@@ -96,8 +96,16 @@ async function updateProfile() {
             body: JSON.stringify(user)
         });
 
-        const data = await response.json();
-        console.log("Response:", data);
+        const contentType = response.headers.get('content-type') || '';
+        let data = null;
+        if (contentType.includes('application/json')) {
+            data = await response.json();
+        } else {
+            const text = await response.text();
+            console.warn('Non-JSON response for updateProfile:', text);
+            Notiflix.Notify.failure("Unexpected server response", { position: 'center-top' });
+            return;
+        }
 
         if (response.ok) {
             if (data.status) {
@@ -165,19 +173,25 @@ async function loadUser() {
             } else {
                 const data = await response.json();
 
-                document.getElementById("firstName").value = data.user.firstName;
-                document.getElementById("lastName").value = data.user.lastName;
-                document.getElementById("email").value = data.user.email;
-                document.getElementById("phone").value = data.user.mobile;
-                document.getElementById("lineOne").value = data.user.lineOne;
-                document.getElementById("lineTwo").value = data.user.lineTwo;
-                document.getElementById("accountCity").value = data.user.cityId;
-                document.getElementById("postalCode").value = data.user.postalCode;
+                if (!data || !data.user || typeof data.user !== 'object') {
+                    console.error("Unexpected user payload:", data);
+                    Notiflix.Notify.failure("Profile Loading Failed", {position: 'center-top'});
+                    return;
+                }
 
-                console.log("Set city value to:", data.user.cityId);
+                document.getElementById("firstName").value = data.user.firstName ?? "";
+                document.getElementById("lastName").value = data.user.lastName ?? "";
+                document.getElementById("email").value = data.user.email ?? "";
+                document.getElementById("phone").value = data.user.mobile ?? "";
+                document.getElementById("lineOne").value = data.user.lineOne ?? "";
+                document.getElementById("lineTwo").value = data.user.lineTwo ?? "";
+                if (data.user.cityId && data.user.cityId !== 0) {
+                    document.getElementById("accountCity").value = data.user.cityId;
+                }
+                document.getElementById("postalCode").value = data.user.postalCode ?? "";
             }
         } else {
-            Notiflix.Notify.failure("Profile Loading Failed", {
+            Notiflix.Notify.failure("Profile Loading Failed...Please Login First", {
                 position: 'center-top'
             });
         }
