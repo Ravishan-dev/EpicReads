@@ -29,6 +29,10 @@ public class User extends BaseEntity {
     @JoinColumn(name = "status_id")
     private Status status;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role;
+
     public Status getStatus() {
         return status;
     }
@@ -83,5 +87,13 @@ public class User extends BaseEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

@@ -2,6 +2,7 @@ package com.ravishandev.epicreads.service;
 
 import com.google.gson.JsonObject;
 import com.ravishandev.epicreads.dto.UserDTO;
+import com.ravishandev.epicreads.entity.Role;
 import com.ravishandev.epicreads.entity.Status;
 import com.ravishandev.epicreads.entity.User;
 import com.ravishandev.epicreads.mail.VerificationMail;
@@ -224,7 +225,12 @@ public class UserService {
                         .setParameter("value", String.valueOf(Status.type.PENDING))
                         .getSingleResultOrNull();
 
+                Role userRole = hibernateSession.createQuery("fROM Role r WHERE r.value=:value", Role.class)
+                        .setParameter("value", String.valueOf(Role.role.USER))
+                        .getSingleResultOrNull();
+
                 user.setStatus(pendingStatus);
+                user.setRole(userRole);
 
                 Transaction transaction = hibernateSession.beginTransaction();
                 try {

@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Seller Login - EPIC READS</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="./assets/css/notification.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/seller-login.css">
+</head>
+
+<body>
+<div class="page-shell">
+
+    <!-- Seller Login Section -->
+    <section class="seller-login-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                    <div class="seller-login-card">
+                        <div class="seller-login-header">
+                            <div class="seller-icon">
+                                <i class="bi bi-shop"></i>
+                            </div>
+                            <h1 class="seller-title">Seller Portal</h1>
+                            <p class="seller-subtitle">Access your seller dashboard to manage your books</p>
+                        </div>
+
+                        <!-- Hidden radio inputs for CSS-only tab switching -->
+                        <input type="radio" name="formTab" id="tabLogin" class="form-tab-radio" checked>
+                        <input type="radio" name="formTab" id="tabRegister" class="form-tab-radio">
+
+                        <!-- Login Form -->
+                        <div class="form-panel" id="loginForm">
+                            <div class="info-box">
+                                <i class="bi bi-info-circle"></i>
+                                <div>Enter your registered company email to access your seller account.</div>
+                            </div>
+
+                            <div class="form-group-custom">
+                                <label for="loginEmail">Company Email</label>
+                                <div class="input-icon-wrapper">
+                                    <i class="bi bi-envelope"></i>
+                                    <input type="email" id="loginEmail" class="form-control" placeholder="company@example.com"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group-custom">
+                                <label for="loginPassword">Password</label>
+                                <div class="input-icon-wrapper">
+                                    <i class="bi bi-lock"></i>
+                                    <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password"/>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                                </div>
+                                <a href="#" class="forgot-link">Forgot password?</a>
+                            </div>
+
+                            <button class="btn-seller-login" id="btnLogin" type="button">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                            </button>
+
+                            <div class="divider">
+                                <span>New to selling?</span>
+                            </div>
+
+                            <label for="tabRegister" class="btn-seller-register">
+                                <i class="bi bi-person-plus me-2"></i>Register as Seller
+                            </label>
+                        </div>
+
+                        <!-- Registration Form -->
+                        <div class="form-panel" id="registerForm">
+                            <div class="info-box">
+                                <i class="bi bi-info-circle"></i>
+                                <div>Fill in your company details to create a seller account. Your account will be reviewed before activation.</div>
+                            </div>
+
+                            <h4 class="section-subtitle mb-3">Company Information</h4>
+
+                            <div class="form-group-custom">
+                                <label for="companyName">Company Name <span class="required">*</span></label>
+                                <div class="input-icon-wrapper">
+                                    <i class="bi bi-building"></i>
+                                    <input type="text" id="companyName" class="form-control" placeholder="Your Company Name"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group-custom">
+                                <label for="companyEmail">Company Email <span class="required">*</span></label>
+                                <div class="input-icon-wrapper">
+                                    <i class="bi bi-envelope"></i>
+                                    <input type="email" id="companyEmail" class="form-control" placeholder="company@example.com"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group-custom">
+                                <label for="companyMobile">Company Mobile <span class="required">*</span></label>
+                                <div class="input-icon-wrapper">
+                                    <i class="bi bi-telephone"></i>
+                                    <input type="tel" id="companyMobile" class="form-control" placeholder="07XXXXXXXX"/>
+                                </div>
+                            </div>
+
+                            <div class="section-divider my-4"></div>
+
+                            <h4 class="section-subtitle mb-3">Account Credentials</h4>
+
+                            <div class="form-group-custom">
+                                <label for="registerPassword">Password <span class="required">*</span></label>
+                                <div class="input-icon-wrapper">
+                                    <i class="bi bi-lock"></i>
+                                    <input type="password" id="registerPassword" class="form-control" placeholder="Create a password"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group-custom">
+                                <label for="confirmRegisterPassword">Confirm Password <span class="required">*</span></label>
+                                <div class="input-icon-wrapper">
+                                    <i class="bi bi-lock-fill"></i>
+                                    <input type="password" id="confirmRegisterPassword" class="form-control" placeholder="Confirm your password"/>
+                                </div>
+                            </div>
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="agreeTerms">
+                                <label class="form-check-label" for="agreeTerms">
+                                    I agree to the <a href="#">Terms of Service</a> and <a href="#">Seller Agreement</a>
+                                </label>
+                            </div>
+
+                            <button class="btn-seller-login" id="btnRegister" type="button" onclick="createSellerAccount()">
+                                <i class="bi bi-check-circle me-2"></i>Create Seller Account
+                            </button>
+
+                            <label for="tabLogin" class="btn-back-login">
+                                <i class="bi bi-arrow-left me-2"></i>Back to Login
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div id="footerContainer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="./assets/js/notiflix-aio-3.2.8.min.js"></script>
+<script src="assets/js/seller-login.js"></script>
+<script src="./assets/js/seller-sign-up.js"></script>
+</body>
+</html>
