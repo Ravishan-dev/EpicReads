@@ -9,6 +9,7 @@ public class SellerDTO {
     private String password;
     private String confirmPassword;
     private boolean agreed;
+    private boolean rememberme;
 
     public int getId() {
         return id;
@@ -64,5 +65,9 @@ public class SellerDTO {
 
     public void setAgreed(boolean agreed) {
         this.agreed = agreed;
+    }
+
+    public boolean isRememberme() {
+        return rememberme;
     }
 }

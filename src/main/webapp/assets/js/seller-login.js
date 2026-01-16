@@ -1,23 +1,16 @@
-async function createSellerAccount() {
-
-    const name = document.getElementById("companyName");
-    const email = document.getElementById("companyEmail");
-    const mobile = document.getElementById("companyMobile");
-    const password = document.getElementById("registerPassword");
-    const confirmPassword = document.getElementById("confirmRegisterPassword");
-    const agreed = document.getElementById("agreeTerms");
+async function sellerLogin() {
+    const email = document.getElementById("loginEmail");
+    const password = document.getElementById("loginPassword");
+    const rememberMe = document.getElementById("rememberMe");
 
     const seller = {
-        companyName: name.value,
         companyEmail: email.value,
-        companyMobile: mobile.value,
         password: password.value,
-        confirmPassword: confirmPassword.value,
-        agreed: agreed.checked
+        rememberMe: rememberMe.checked
     }
 
     try {
-        const response = await fetch("api/sellers/create-account", {
+        const response = await fetch("api/sellers/login", {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -28,13 +21,13 @@ async function createSellerAccount() {
         if (response.ok) {
             const data = await response.json();
             if (data.status) {
-                Notiflix.Report.success(
+                Notiflix.Report(
                     'EPIC READS',
                     data.message,
                     'Okay',
                     () => {
                         window.location = "index.html"
-                    },
+                    }
                 );
             } else {
                 Notiflix.Notify.failure(data.message, {
@@ -42,7 +35,7 @@ async function createSellerAccount() {
                 });
             }
         } else {
-            Notiflix.Notify.failure("Account Creation Failed! Please Try Again", {
+            Notiflix.Notify.failure("Login Failed", {
                 'position': 'center-top'
             });
         }

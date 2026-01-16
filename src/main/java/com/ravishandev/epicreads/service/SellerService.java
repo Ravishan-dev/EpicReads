@@ -12,11 +12,60 @@ import com.ravishandev.epicreads.validation.Validator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Cookie;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class SellerService {
+
+    public String login(SellerDTO sellerDTO, @Context HttpServletRequest request) {
+        JsonObject responseObject = new JsonObject();
+        boolean status = false;
+        String message = "";
+
+        if (sellerDTO.getCompanyEmail() == null) {
+            message = "Company Email Address is Required";
+        } else if (sellerDTO.getCompanyEmail().isBlank()) {
+            message = "Company Email can not be Empty";
+        } else if (!sellerDTO.getCompanyEmail().matches(Validator.EMAIL_VALIDATION)) {
+            message = "Please Provide Valid Email Address";
+        } else if (sellerDTO.getPassword() == null) {
+            message = "Password Is Required";
+        } else if (sellerDTO.getPassword().isBlank()) {
+            message = "Password can not be Empty";
+        } else if (!sellerDTO.getPassword().matches(Validator.PASSWORD_VALIDATION)) {
+            message = "Please Provide a Valid Password";
+        } else {
+            HttpSession session = request.getSession(false);
+            User user = (User) session.getAttribute("user");
+
+            Session hibernateSession = HibernateUtil.getSessionFactory().openSession();
+            Seller dbSeller = hibernateSession.createQuery("FROM Seller s WHERE s.user=:user", Seller.class)
+                    .setParameter("user", user)
+                    .getSingleResultOrNull();
+
+            if (dbSeller == null) {
+                message = "Account Not Found";
+            } else {
+                if (!dbSeller.getCompanyEmail().equals(sellerDTO.getCompanyEmail())) {
+                    message = "Invalid Credentials Please Try Again";
+                } else if (!dbSeller.getPassword().equals(sellerDTO.getPassword())) {
+                    message = "Invalid Credentials Please Try Again";
+                } else {
+                    if (sellerDTO.isRememberme()){
+
+                    }
+                    session.setAttribute("seller", dbSeller);
+                    status = true;
+                    message = "Login Success";
+                }
+            }
+        }
+        responseObject.addProperty("status", status);
+        responseObject.addProperty("message", message);
+        return AppUtil.GSON.toJson(responseObject);
+    }
 
     public String createAccount(SellerDTO sellerDTO, @Context HttpServletRequest request) {
         JsonObject responseObject = new JsonObject();

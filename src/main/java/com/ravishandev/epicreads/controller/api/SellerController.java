@@ -15,6 +15,16 @@ import jakarta.ws.rs.core.Response;
 @Path("/sellers")
 public class SellerController {
 
+    @Path("/login")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response login(String jsonData, @Context HttpServletRequest request) {
+        SellerDTO sellerDTO = AppUtil.GSON.fromJson(jsonData, SellerDTO.class);
+        String responseJson = new SellerService().login(sellerDTO, request);
+        return Response.ok().entity(responseJson).build();
+    }
+
     @Path("/create-account")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
