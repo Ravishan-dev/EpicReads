@@ -21,7 +21,7 @@ async function sellerLogin() {
         if (response.ok) {
             const data = await response.json();
             if (data.status) {
-                Notiflix.Report(
+                Notiflix.Report.success(
                     'EPIC READS',
                     data.message,
                     'Okay',
