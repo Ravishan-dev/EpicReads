@@ -28,4 +28,9 @@
         <filter-name>AccessControlFilter</filter-name>
         <url-pattern>/my-account.html</url-pattern>
     </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AccessControlFilter</filter-name>
+        <url-pattern>/seller-login</url-pattern>
+    </filter-mapping>
 </web-app>
