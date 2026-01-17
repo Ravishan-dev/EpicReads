@@ -31,6 +31,6 @@
 
     <filter-mapping>
         <filter-name>AccessControlFilter</filter-name>
-        <url-pattern>/seller-login</url-pattern>
+        <url-pattern>/seller-login.html</url-pattern>
     </filter-mapping>
 </web-app>
