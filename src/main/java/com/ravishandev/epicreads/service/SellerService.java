@@ -53,9 +53,6 @@ public class SellerService {
                 } else if (!dbSeller.getPassword().equals(sellerDTO.getPassword())) {
                     message = "Invalid Credentials Please Try Again";
                 } else {
-                    if (sellerDTO.isRememberme()){
-
-                    }
                     session.setAttribute("seller", dbSeller);
                     status = true;
                     message = "Login Success";

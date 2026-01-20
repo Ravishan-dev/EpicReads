@@ -29,6 +29,7 @@ async function sellerLogin() {
                         window.location = "index.html"
                     }
                 );
+                sessionStorage.setItem("isSeller", "true");
             } else {
                 Notiflix.Notify.failure(data.message, {
                     'position': 'center-top'

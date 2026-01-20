@@ -1,8 +1,21 @@
 window.addEventListener("load", async () => {
+
+    const seller = JSON.parse(sessionStorage.getItem("isSeller"));
     Notiflix.Loading.pulse("Please Wait...", {
         clickToClose: false,
         svgColor: '#0248c7',
     });
+
+    if (!seller) {
+        const addBook = document.getElementById("addbook");
+        const addBookTab = document.getElementById("addbook-tab");
+        if (addBook) {
+            addBook.style.display = 'none';
+        }
+        if (addBookTab) {
+            addBookTab.style.display = 'none';
+        }
+    }
 
     try {
         await loadCities();
@@ -11,6 +24,43 @@ window.addEventListener("load", async () => {
         Notiflix.Loading.remove(1000);
     }
 });
+
+document.getElementById("addbook-tab").addEventListener("click", async () => {
+    try {
+        Notiflix.Loading.pulse("Please Wait...", {
+            clickToClose: false,
+            svgColor: '#0248c7',
+        });
+
+        await loadCategories();
+    } finally {
+        Notiflix.Loading.remove(1000);
+    }
+})
+
+async function loadCategories() {
+    try {
+        const response = await fetch("api/data/categories", {method: 'GET'});
+        if (response.ok) {
+            const data = await response.json();
+            const categorySelect = document.getElementById("bookCategory");
+            data.categories.forEach((category) => {
+                const option = document.createElement("option");
+                option.value = category.id;
+                option.textContent = category.value
+                categorySelect.appendChild(option);
+            });
+        } else {
+            Notiflix.Notify.failure("Category Loading Failed", {
+                'position': 'center-top'
+            });
+        }
+    } catch (e) {
+        Notiflix.Notify.failure(e.message, {
+            'position': 'center-top'
+        });
+    }
+}
 
 async function changePassword() {
 
@@ -103,7 +153,7 @@ async function updateProfile() {
         } else {
             const text = await response.text();
             console.warn('Non-JSON response for updateProfile:', text);
-            Notiflix.Notify.failure("Unexpected server response", { position: 'center-top' });
+            Notiflix.Notify.failure("Unexpected server response", {position: 'center-top'});
             return;
         }
 

@@ -27,7 +27,9 @@ public class Status implements Serializable {
         CANCELLED,
         VERIFIED,
         RECEIVED,
-        COMPLETED
+        COMPLETED,
+        InStock,
+        OutOfStock
     }
 
     public int getId() {

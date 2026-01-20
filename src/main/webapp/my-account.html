@@ -10,82 +10,82 @@
     <link rel="stylesheet" href="./assets/css/notification.css">
     <link rel="stylesheet" href="./assets/css/style.css">
     <style>
-    /* ===== Account Page Section ===== */
-    .account-section {
-        padding: 42px;
-    }
-
-    .account-header {
-        text-align: center;
-        margin-bottom: 42px;
-    }
-
-    .account-title {
-        font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
-        font-size: clamp(32px, 5vw, 48px);
-        font-weight: 500;
-        margin-bottom: 8px;
-        color: var(--ink);
-    }
-
-    .account-subtitle {
-        color: var(--muted);
-        font-size: 16px;
-    }
-
-    .card-subtitle {
-        color: var(--muted);
-        font-size: 13px;
-        margin: 4px 0 0 0;
-    }
-
-    .section-divider {
-        height: 2px;
-        background: var(--line);
-    }
-
-    .section-subtitle {
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--ink);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .empty-state {
-        padding: 60px 40px;
-        text-align: center;
-        background: #fafaf8;
-        border-radius: 12px;
-        border: 1px solid var(--line);
-    }
-
-    .empty-state i {
-        font-size: 48px;
-        color: var(--muted);
-        display: block;
-        margin-bottom: 16px;
-    }
-
-    .empty-state p {
-        color: var(--muted);
-        margin: 0;
-        font-size: 14px;
-    }
-
-    @media (max-width: 992px) {
+        /* ===== Account Page Section ===== */
         .account-section {
-            padding: 28px 18px;
+            padding: 42px;
         }
 
         .account-header {
-            margin-bottom: 28px;
+            text-align: center;
+            margin-bottom: 42px;
         }
 
         .account-title {
-            font-size: clamp(24px, 4vw, 32px);
+            font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--ink);
         }
-    }
+
+        .account-subtitle {
+            color: var(--muted);
+            font-size: 16px;
+        }
+
+        .card-subtitle {
+            color: var(--muted);
+            font-size: 13px;
+            margin: 4px 0 0 0;
+        }
+
+        .section-divider {
+            height: 2px;
+            background: var(--line);
+        }
+
+        .section-subtitle {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--ink);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .empty-state {
+            padding: 60px 40px;
+            text-align: center;
+            background: #fafaf8;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            color: var(--muted);
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .empty-state p {
+            color: var(--muted);
+            margin: 0;
+            font-size: 14px;
+        }
+
+        @media (max-width: 992px) {
+            .account-section {
+                padding: 28px 18px;
+            }
+
+            .account-header {
+                margin-bottom: 28px;
+            }
+
+            .account-title {
+                font-size: clamp(24px, 4vw, 32px);
+            }
+        }
     </style>
 </head>
 
@@ -106,20 +106,30 @@
             <div class="account-tabs mb-4">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-selected="true">
+                        <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details"
+                                type="button" role="tab" aria-selected="true">
                             <i class="bi bi-person me-2"></i> Account Details
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab" aria-selected="false">
+                        <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security"
+                                type="button" role="tab" aria-selected="false">
                             <i class="bi bi-shield-lock me-2"></i> Security
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab" aria-selected="false">
+                        <button class="nav-link" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders"
+                                type="button" role="tab" aria-selected="false">
                             <i class="bi bi-box-seam me-2"></i> Orders
                         </button>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="addbook-tab" data-bs-toggle="tab" data-bs-target="#addbook"
+                                type="button" role="tab" aria-selected="false">
+                            <i class="bi bi-plus-circle me-2"></i> Add Book
+                        </button>
+                    </li>
+
                 </ul>
             </div>
 
@@ -138,7 +148,9 @@
 
                         <div class="info-box">
                             <i class="bi bi-info-circle"></i>
-                            <div>Keep your personal information up to date to ensure smooth transactions and better service.</div>
+                            <div>Keep your personal information up to date to ensure smooth transactions and better
+                                service.
+                            </div>
                         </div>
 
                         <div class="form-grid">
@@ -180,7 +192,8 @@
                         <div class="form-grid full">
                             <div class="form-group-custom">
                                 <label for="lineTwo">Address Line 2</label>
-                                <input type="text" id="lineTwo" class="form-control" placeholder="Apartment, suite, etc. (optional)"/>
+                                <input type="text" id="lineTwo" class="form-control"
+                                       placeholder="Apartment, suite, etc. (optional)"/>
                             </div>
                         </div>
 
@@ -188,8 +201,8 @@
                             <div class="form-group-custom">
                                 <label for="accountCity">City</label>
                                 <select id="accountCity" class="form-control">
-                                        <option value="0">Select a city</option>
-                                    </select>
+                                    <option value="0">Select a city</option>
+                                </select>
                             </div>
                             <div class="form-group-custom">
                                 <label for="postalCode">Postal Code</label>
@@ -209,7 +222,9 @@
 
                         <div class="info-box">
                             <i class="bi bi-shop"></i>
-                            <div>Want to sell your books on EPIC READS? Register as a seller to start your own bookstore.</div>
+                            <div>Want to sell your books on EPIC READS? Register as a seller to start your own
+                                bookstore.
+                            </div>
                         </div>
 
                         <div class="button-group mt-3">
@@ -234,20 +249,24 @@
 
                         <div class="info-box">
                             <i class="bi bi-info-circle"></i>
-                            <div>Use a strong password with at least 8 characters, including uppercase, lowercase, numbers, and special characters.</div>
+                            <div>Use a strong password with at least 8 characters, including uppercase, lowercase,
+                                numbers, and special characters.
+                            </div>
                         </div>
 
                         <div class="form-grid full">
                             <div class="form-group-custom">
                                 <label for="currentPassword">Current Password</label>
-                                <input type="password" id="currentPassword" class="form-control" placeholder="Enter your current password"/>
+                                <input type="password" id="currentPassword" class="form-control"
+                                       placeholder="Enter your current password"/>
                             </div>
                         </div>
 
                         <div class="form-grid full">
                             <div class="form-group-custom">
                                 <label for="newPassword">New Password</label>
-                                <input type="password" id="newPassword" class="form-control" placeholder="Enter new password"/>
+                                <input type="password" id="newPassword" class="form-control"
+                                       placeholder="Enter new password"/>
                                 <div class="password-strength mt-2">
                                     <div class="strength-bar"></div>
                                     <div class="strength-bar"></div>
@@ -260,7 +279,8 @@
                         <div class="form-grid full">
                             <div class="form-group-custom">
                                 <label for="confirmPassword">Confirm Password</label>
-                                <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your new password"/>
+                                <input type="password" id="confirmPassword" class="form-control"
+                                       placeholder="Confirm your new password"/>
                             </div>
                         </div>
 
@@ -309,6 +329,81 @@
                         </div>
                     </div>
                 </div>
+                <!-- Add Book Tab -->
+                <div class="tab-pane fade" id="addbook" role="tabpanel">
+                    <div class="account-card">
+                        <div class="card-header-custom">
+                            <i class="bi bi-book"></i>
+                            <div>
+                                <h3>Add New Book</h3>
+                                <p class="card-subtitle">List a new book for sale on EPIC READS</p>
+                            </div>
+                        </div>
+
+                        <div class="info-box">
+                            <i class="bi bi-info-circle"></i>
+                            <div>Fill in all the required details to list your book. Make sure the information is
+                                accurate.
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group-custom">
+                                <label for="bookTitle">Book Title</label>
+                                <input type="text" id="bookTitle" class="form-control" placeholder="Enter book title"/>
+                            </div>
+                            <div class="form-group-custom">
+                                <label for="bookIsbn">ISBN</label>
+                                <input type="text" id="bookIsbn" class="form-control" placeholder="Enter ISBN"/>
+                            </div>
+                        </div>
+
+                        <div class="form-grid full">
+                            <div class="form-group-custom">
+                                <label for="bookDescription">Description</label>
+                                <textarea id="bookDescription" class="form-control" rows="4"
+                                          placeholder="Enter book description"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group-custom">
+                                <label for="bookAuthor">Author</label>
+                                <input type="text" id="bookAuthor" class="form-control"
+                                       placeholder="Enter author name"/>
+                            </div>
+                            <div class="form-group-custom">
+                                <label for="bookPrice">Price</label>
+                                <input type="text" id="bookPrice" class="form-control" placeholder="Enter price"/>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group-custom">
+                                <label for="bookQty">Quantity</label>
+                                <input type="number" id="bookQty" class="form-control" placeholder="Enter quantity"
+                                       min="1"/>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group-custom">
+                                <label for="bookCategory">Category</label>
+                                <select id="bookCategory" class="form-control">
+                                    <option value="0">Select a category</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="button-group mt-4">
+                            <button class="btn-update" onclick="addBook()">
+                                <i class="bi bi-plus-lg me-2"></i>Add Book
+                            </button>
+                            <button class="btn-secondary-action">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -325,7 +420,7 @@
     const strengthBars = document.querySelectorAll('.password-strength .strength-bar');
 
     if (newPasswordInput) {
-        newPasswordInput.addEventListener('input', function() {
+        newPasswordInput.addEventListener('input', function () {
             let strength = 0;
             const password = this.value;
 
@@ -345,13 +440,14 @@
     }
 
     document.querySelectorAll('.btn-secondary-action').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             window.location.href = 'index.html';
         });
     });
 </script>
 <script src="./assets/js/notiflix-aio-3.2.8.min.js"></script>
 <script src="./assets/js/my-account.js"></script>
+<script src="assets/js/addBook.js"/>
 <script src="./assets/js/script.js"></script>
 </body>
 </html>
